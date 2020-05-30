@@ -1,7 +1,6 @@
 package com.freshvotes.domain;
 
-import javax.persistence.Entity;
-import javax.persistence.Table;
+import javax.persistence.*;
 
 @Entity
 @Table(name = "users")
@@ -11,6 +10,7 @@ public class User {
     private String password;
     private String name;
 
+    @Id @GeneratedValue(strategy=GenerationType.IDENTITY)
     public Long getId() {
         return id;
     }
