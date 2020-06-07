@@ -4,6 +4,7 @@ import com.freshvotes.domain.User;
 import com.freshvotes.repositories.UserRepository;
 import com.freshvotes.security.CustomSecurityUser;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;

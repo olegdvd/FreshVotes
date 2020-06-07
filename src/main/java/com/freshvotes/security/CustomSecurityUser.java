@@ -21,9 +21,7 @@ public class CustomSecurityUser extends User implements UserDetails {
     }
 
     @Override
-    public Set<Authority> getAuthorities() {
-        return super.getAuthorities();
-    }
+    public Set<Authority> getAuthorities() { return super.getAuthorities(); }
 
     @Override
     public String getPassword() {
@@ -31,9 +29,7 @@ public class CustomSecurityUser extends User implements UserDetails {
     }
 
     @Override
-    public String getUsername() {
-        return super.getUsername();
-    }
+    public String getUsername() { return super.getUsername(); }
 
     @Override
     public boolean isAccountNonExpired() {
