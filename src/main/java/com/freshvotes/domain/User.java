@@ -1,6 +1,8 @@
 package com.freshvotes.domain;
 
 import com.freshvotes.security.Authority;
+import org.thymeleaf.context.ILazyContextVariable;
+import sun.applet.AppletResourceLoader;
 
 import javax.persistence.*;
 import java.util.HashSet;
@@ -14,6 +16,17 @@ public class User {
     private String password;
     private String name;
     private Set<Authority> authorities = new HashSet<>();
+    private Set<Product> products = new HashSet<>();
+
+    @OneToMany(cascade = CascadeType.PERSIST, fetch = FetchType.LAZY, mappedBy = "user")
+    public Set<Product> getProducts() {
+        return products;
+    }
+
+    public void setProducts(Set<Product> products) {
+        this.products = products;
+    }
+
 
 
     public User() {
