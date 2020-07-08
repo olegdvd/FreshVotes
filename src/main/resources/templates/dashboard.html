@@ -2,9 +2,7 @@
 <html xmlns:th="http://thymeleaf.org">
 <head>
     <title>FreshVotes Dashboard</title>
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css"
-          integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
-    <meta charset="UTF-8">
+    <script th:replace="fragments/header :: headerElement"></script>
 </head>
 <body>
 <div class="container">
@@ -19,17 +17,19 @@
             </form>
         </div>
     </div>
-    <div th:if="${products != null}">
-        <div class="row">
-            <div class="col">
-                <h1>Products</h1>
-            </div>
-        </div>
-        <div>
-            <div class="row" th:each="product : ${products}">
+    <div class="jumbotron">
+        <div th:if="${products != null}">
+            <div class="row">
                 <div class="col">
-                    <a th:href="@{/products/{productId}(productId=${product.id})}" th:text="${product.name}"></a>
-                 </div>
+                    <h1>Products</h1>
+                </div>
+            </div>
+            <div>
+                <div class="row" th:each="product : ${products}">
+                    <div class="col">
+                        <a th:href="@{/products/{productId}(productId=${product.id})}" th:text="${product.name}"></a>
+                    </div>
+                </div>
             </div>
         </div>
     </div>

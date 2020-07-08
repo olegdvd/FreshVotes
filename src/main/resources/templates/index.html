@@ -1,10 +1,25 @@
 <!DOCTYPE html>
-<html lang="en">
+<html xmlns:th="http://thymeleaf.org">
 <head>
-    <meta charset="UTF-8">
+    <script th:replace="fragments/header :: headerElement"></script>
     <title>FreshVotes Homepage</title>
 </head>
 <body>
-<H1>Welcome to FreshVotes!</H1>
+<div class="container">
+    <div class="row" style="margin-top: 2em">
+        <div class="col-8">
+            <H1>Welcome to FreshVotes!</H1>
+        </div>
+        <div class="col-4">
+            <button class="btn btn-primary float-right" type="button" id="login">Login</button>
+        </div>
+    </div>
+</div>
+<script type="text/javascript">
+    var loginBtn = document.getElementById('login')
+    loginBtn.addEventListener('click', function () {
+        window.location.href = '/login'
+    })
+</script>
 </body>
 </html>
