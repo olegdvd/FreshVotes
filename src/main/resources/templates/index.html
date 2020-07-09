@@ -5,21 +5,13 @@
     <title>FreshVotes Homepage</title>
 </head>
 <body>
+<div th:replace="fragments/header :: header"></div>
 <div class="container">
     <div class="row" style="margin-top: 2em">
         <div class="col-8">
             <H1>Welcome to FreshVotes!</H1>
         </div>
-        <div class="col-4">
-            <button class="btn btn-primary float-right" type="button" id="login">Login</button>
-        </div>
     </div>
 </div>
-<script type="text/javascript">
-    var loginBtn = document.getElementById('login')
-    loginBtn.addEventListener('click', function () {
-        window.location.href = '/login'
-    })
-</script>
 </body>
 </html>
