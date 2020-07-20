@@ -36,6 +36,16 @@ public class ProductController {
         return "product";
     }
 
+    @GetMapping("p/{productName}")
+    public String productUserView(@PathVariable String productName, ModelMap model) {
+        if (productName != null) {
+            Optional<Product> productOpt = productRepo.findByName(productName);
+            productOpt.ifPresent(product -> model.put("product", product));
+        }
+        return "productUserView";
+    }
+
+
     @PostMapping("products/{productId}")
     public String saveProduct(@PathVariable Long productId, Product product) {
         System.out.println(product);
@@ -44,6 +54,7 @@ public class ProductController {
 
         return "redirect:/products/" + product.getId();
     }
+
 
     @PostMapping("products")
     public String createProduct(@AuthenticationPrincipal User user) {
