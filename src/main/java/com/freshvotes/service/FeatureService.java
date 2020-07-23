@@ -20,7 +20,7 @@ public class FeatureService {
         Feature feature = new Feature();
 
         Optional<Product> productOpt = productRepo.findById(productId);
-        if(productOpt.isPresent()){
+        if (productOpt.isPresent()) {
             Product product = productOpt.get();
 
             feature.setProduct(product);
@@ -30,5 +30,13 @@ public class FeatureService {
             return featureRepo.save(feature);
         }
         return feature;
+    }
+
+    public Feature save(Feature feature) {
+        return featureRepo.save(feature);
+    }
+
+    public Optional<Feature> findById(Long featureId) {
+        return featureRepo.findById(featureId);
     }
 }
