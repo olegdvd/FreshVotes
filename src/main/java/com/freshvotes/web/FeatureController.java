@@ -1,11 +1,13 @@
 package com.freshvotes.web;
 
 import com.freshvotes.domain.Feature;
+import com.freshvotes.domain.User;
 import com.freshvotes.service.FeatureService;
 import com.sun.xml.bind.v2.runtime.SwaRefAdapter;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -27,8 +29,8 @@ public class FeatureController {
     FeatureService featureService;
 
     @PostMapping("")
-    public String CreateFeature(@PathVariable Long productId) {
-        Feature feature = featureService.createFeature(productId);
+    public String CreateFeature(@AuthenticationPrincipal User user, @PathVariable Long productId) {
+        Feature feature = featureService.createFeature(user, productId);
         return "redirect:/products/" + productId + "/features/" + feature.getId();
     }
 
@@ -40,8 +42,10 @@ public class FeatureController {
     }
 
     @PostMapping("{featureId}")
-    public String updateFeature(Feature feature, @PathVariable Long productId, @PathVariable Long featureId) {
+    public String updateFeature(@AuthenticationPrincipal User user, Feature feature, @PathVariable Long productId, @PathVariable Long featureId) {
+        feature.setUser(user);
         feature = featureService.save(feature);
+
         String encodedProductName;
         try {
             encodedProductName = URLEncoder.encode(feature.getProduct().getName(), StandardCharsets.UTF_8.toString());
