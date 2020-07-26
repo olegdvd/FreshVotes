@@ -1,6 +1,8 @@
 package com.freshvotes.domain;
 
 import javax.persistence.*;
+import java.util.HashSet;
+import java.util.Set;
 
 @Entity
 public class Feature {
@@ -10,6 +12,7 @@ public class Feature {
     private String status;
     private Product product;
     private User user;
+    private Set<Comment> comments = new HashSet<>();
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -37,6 +40,15 @@ public class Feature {
 
     public void setUser(User user) {
         this.user = user;
+    }
+
+    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "feature")
+    public Set<Comment> getComments() {
+        return comments;
+    }
+
+    public void setComments(Set<Comment> comments) {
+        this.comments = comments;
     }
 
     public String getTitle() {

@@ -3,7 +3,6 @@ package com.freshvotes.web;
 import com.freshvotes.domain.Feature;
 import com.freshvotes.domain.User;
 import com.freshvotes.service.FeatureService;
-import com.sun.xml.bind.v2.runtime.SwaRefAdapter;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -35,9 +34,10 @@ public class FeatureController {
     }
 
     @GetMapping("/{featureId}")
-    public String getFeature(ModelMap model, @PathVariable Long productId, @PathVariable Long featureId) {
+    public String getFeature(@AuthenticationPrincipal User user, ModelMap model, @PathVariable Long productId, @PathVariable Long featureId) {
         Optional<Feature> featureOpt = featureService.findById(featureId);
         featureOpt.ifPresent(feature -> model.put("feature", feature));
+        model.put("user", user);
         return "feature";
     }
 
@@ -50,7 +50,7 @@ public class FeatureController {
         try {
             encodedProductName = URLEncoder.encode(feature.getProduct().getName(), StandardCharsets.UTF_8.toString());
         } catch (UnsupportedEncodingException e) {
-            log.warn("Unable to encode URL string: " +  feature.getProduct().getName() + " Redirecting to dashboard.");
+            log.warn("Unable to encode URL string: " + feature.getProduct().getName() + " Redirecting to dashboard.");
             return "redirect:/dashboard";
         }
         return "redirect:/p/" + encodedProductName;
