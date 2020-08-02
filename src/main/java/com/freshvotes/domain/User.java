@@ -16,7 +16,7 @@ public class User {
     private Set<Authority> authorities = new HashSet<>();
     private Set<Product> products = new HashSet<>();
     private Set<Feature> features = new HashSet<>();
-    private Set<Comment> comments = new HashSet<>();
+//    private Set<Comment> comments = new HashSet<>();
 
     public User() { //empty
     }
@@ -86,14 +86,14 @@ public class User {
         this.features = features;
     }
 
-    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "user")
-    public Set<Comment> getComments() {
-        return comments;
-    }
-
-    public void setComments(Set<Comment> comments) {
-        this.comments = comments;
-    }
+//    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "user")
+//    public Set<Comment> getComments() {
+//        return comments;
+//    }
+//
+//    public void setComments(Set<Comment> comments) {
+//        this.comments = comments;
+//    }
 
     @Override
     public String toString() {
