@@ -36,8 +36,14 @@
             <button type="submit" class="btn-primary btn-lg">Save</button>
         </div>
     </form>
-    <div>
+    <div style="margin-top: 2em">
         <h2>Comments</h2>
+        <form method="post" action="" >
+            <div class="form-group">
+                <label for="exampleFormControlTextarea1">Leave a comment below</label>
+                <textarea class="form-control" id="exampleFormControlTextarea1" rows="3"></textarea>
+            </div>
+        </form>
         <div th:each="comment : ${comments}">
             <span th:text="${comment.text}"></span>
         </div>

@@ -22,13 +22,13 @@ import java.util.Optional;
 @Controller
 @RequestMapping("/products/{productId}/features")
 public class FeatureController {
-    Logger log = LoggerFactory.getLogger(FeatureController.class);
+    private static final Logger LOG = LoggerFactory.getLogger(FeatureController.class);
 
     @Autowired
-    FeatureService featureService;
+    private FeatureService featureService;
 
     @PostMapping("")
-    public String CreateFeature(@AuthenticationPrincipal User user, @PathVariable Long productId) {
+    public String createFeature(@AuthenticationPrincipal User user, @PathVariable Long productId) {
         Feature feature = featureService.createFeature(user, productId);
         return "redirect:/products/" + productId + "/features/" + feature.getId();
     }
@@ -50,7 +50,7 @@ public class FeatureController {
         try {
             encodedProductName = URLEncoder.encode(feature.getProduct().getName(), StandardCharsets.UTF_8.toString());
         } catch (UnsupportedEncodingException e) {
-            log.warn("Unable to encode URL string: " + feature.getProduct().getName() + " Redirecting to dashboard.");
+            LOG.warn("Unable to encode URL string: {} Redirecting to dashboard.",  feature.getProduct().getName());
             return "redirect:/dashboard";
         }
         return "redirect:/p/" + encodedProductName;
