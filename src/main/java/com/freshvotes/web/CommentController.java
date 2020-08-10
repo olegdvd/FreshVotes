@@ -19,8 +19,9 @@ public class CommentController {
 
     @GetMapping("")
     @ResponseBody
-    public List<Comment> getComments(@PathVariable Long featureId){
-        return commentRepo.findByFeatureId(featureId);
+    public List<Comment> getComments(@PathVariable Long featureId) {
+        List<Comment> findByFeatureId = commentRepo.findByFeatureId(featureId);
+        return findByFeatureId;
     }
 
 }

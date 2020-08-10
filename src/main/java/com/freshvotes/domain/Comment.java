@@ -5,9 +5,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 
 import javax.persistence.*;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
+import java.util.*;
 
 @Entity
 @JsonIdentityInfo(generator = ObjectIdGenerators.IntSequenceGenerator.class, property = "@id")
@@ -17,7 +15,7 @@ public class Comment {
     private String text;
     private User user;
     private Feature feature;
-    private List<Comment> comments = new ArrayList<>();
+    private SortedSet<Comment> comments = new TreeSet<>();
     private Comment comment;
     private Date createdDate;
 
@@ -52,11 +50,12 @@ public class Comment {
     }
 
     @OneToMany(mappedBy = "comment")
-    public List<Comment> getComments() {
+    @OrderBy("createdDate, id")
+    public SortedSet<Comment> getComments() {
         return comments;
     }
 
-    public void setComments(List<Comment> comments) {
+    public void setComments(SortedSet<Comment> comments) {
         this.comments = comments;
     }
 
@@ -88,5 +87,16 @@ public class Comment {
         this.text = text;
     }
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Comment comment = (Comment) o;
+        return id.equals(comment.id);
+    }
 
+    @Override
+    public int hashCode() {
+        return Objects.hash(id);
+    }
 }

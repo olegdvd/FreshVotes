@@ -1,5 +1,6 @@
 package com.freshvotes.web;
 
+import com.freshvotes.domain.Comment;
 import com.freshvotes.domain.Feature;
 import com.freshvotes.domain.User;
 import com.freshvotes.service.FeatureService;
@@ -36,7 +37,10 @@ public class FeatureController {
     @GetMapping("/{featureId}")
     public String getFeature(@AuthenticationPrincipal User user, ModelMap model, @PathVariable Long productId, @PathVariable Long featureId) {
         Optional<Feature> featureOpt = featureService.findById(featureId);
-        featureOpt.ifPresent(feature -> model.put("feature", feature));
+        featureOpt.ifPresent(feature -> {
+            model.put("feature", feature);
+            model.put("comments", feature.getComments());
+        });
         model.put("user", user);
         return "feature";
     }
