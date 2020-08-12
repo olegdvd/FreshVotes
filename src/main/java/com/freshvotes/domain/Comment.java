@@ -9,7 +9,7 @@ import java.util.*;
 
 @Entity
 @JsonIdentityInfo(generator = ObjectIdGenerators.IntSequenceGenerator.class, property = "@id")
-public class Comment {
+public class Comment implements Comparable<Comment> {
 
     private Long id;
     private String text;
@@ -98,5 +98,22 @@ public class Comment {
     @Override
     public int hashCode() {
         return Objects.hash(id);
+    }
+
+    @Override
+    public String toString() {
+        return "Comment{" +
+                "id=" + id +
+                ", text='" + text + '\'' +
+                '}';
+    }
+
+    @Override
+    public int compareTo(Comment that) {
+        int comparedValue = this.createdDate.compareTo(that.createdDate);
+        if (comparedValue == 0) {
+            comparedValue = this.id.compareTo(that.id);
+        }
+        return comparedValue;
     }
 }

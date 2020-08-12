@@ -18,7 +18,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
-import java.util.Optional;
+import java.util.*;
 
 @Controller
 @RequestMapping("/products/{productId}/features")
@@ -39,10 +39,26 @@ public class FeatureController {
         Optional<Feature> featureOpt = featureService.findById(featureId);
         featureOpt.ifPresent(feature -> {
             model.put("feature", feature);
-            model.put("comments", feature.getComments());
+            model.put("comments", getCommentsWithoutDuplicates(0, new HashSet<>(), feature.getComments()));
         });
         model.put("user", user);
         return "feature";
+    }
+
+    private Set<Comment> getCommentsWithoutDuplicates(int page, Set<Long> visitedComments, Set<Comment> comments) {
+        page++;
+        Iterator<Comment> itr = comments.iterator();
+        while (itr.hasNext()) {
+            Comment comment = itr.next();
+            boolean addedToVisitedComments = visitedComments.add(comment.getId());
+            if (!addedToVisitedComments) {
+                itr.remove();
+                if (page != 1) return comments;
+            }
+            if (addedToVisitedComments && !comment.getComments().isEmpty())
+                getCommentsWithoutDuplicates(page, visitedComments, comment.getComments());
+        }
+        return comments;
     }
 
     @PostMapping("{featureId}")
@@ -54,7 +70,7 @@ public class FeatureController {
         try {
             encodedProductName = URLEncoder.encode(feature.getProduct().getName(), StandardCharsets.UTF_8.toString());
         } catch (UnsupportedEncodingException e) {
-            LOG.warn("Unable to encode URL string: {} Redirecting to dashboard.",  feature.getProduct().getName());
+            LOG.warn("Unable to encode URL string: {} Redirecting to dashboard.", feature.getProduct().getName());
             return "redirect:/dashboard";
         }
         return "redirect:/p/" + encodedProductName;
