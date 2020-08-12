@@ -39,7 +39,7 @@ public class FeatureController {
         Optional<Feature> featureOpt = featureService.findById(featureId);
         featureOpt.ifPresent(feature -> {
             model.put("feature", feature);
-            model.put("comments", getCommentsWithoutDuplicates(0, new HashSet<>(), feature.getComments()));
+            model.put("thread", getCommentsWithoutDuplicates(0, new HashSet<>(), feature.getComments()));
         });
         model.put("user", user);
         return "feature";

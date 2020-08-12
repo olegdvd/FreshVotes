@@ -36,7 +36,7 @@
             <button type="submit" class="btn-primary btn-lg">Save</button>
         </div>
     </form>
-    <div style="margin-top: 2em">
+    <div style="margin-top: 2em; margin-bottom: 3em;">
         <h2>Comments</h2>
         <form method="post" action="">
             <div class="form-group">
@@ -44,18 +44,7 @@
                 <textarea class="form-control" id="exampleFormControlTextarea1" rows="3"></textarea>
             </div>
         </form>
-        <div th:each="comment : ${comments}">
-            <span th:text="${comment.text}"></span>
-            <div th:each="commentLevel1 : ${comment.comments}" style="margin-left: 1em">
-                <span th:text="${commentLevel1.text}"></span>
-                <div th:each="commentLevel2 : ${commentLevel1.comments}" style="margin-left: 1em">
-                    <span th:text="${commentLevel2.text}"></span>
-                    <div th:each="commentLevel3 : ${commentLevel2.comments}" style="margin-left: 1em">
-                        <span th:text="${commentLevel3.text}"></span>
-                </div>
-            </div>
-        </div>
+        <div th:replace="fragments/comment :: commentThread"></div>
     </div>
-</div>
 </body>
 </html>
