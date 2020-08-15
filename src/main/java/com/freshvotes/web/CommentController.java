@@ -14,14 +14,18 @@ import java.util.List;
 @Controller
 @RequestMapping("/products/{productId}/features/{featureId}/comments")
 public class CommentController {
+
+    private final CommentRepository commentRepo;
+
     @Autowired
-    public CommentRepository commentRepo;
+    public CommentController(CommentRepository commentRepo) {
+        this.commentRepo = commentRepo;
+    }
 
     @GetMapping("")
     @ResponseBody
-    public List<Comment> getComments(@PathVariable Long featureId) {
-        List<Comment> findByFeatureId = commentRepo.findByFeatureId(featureId);
-        return findByFeatureId;
+    public List<Comment> getComments(@PathVariable Long productId, @PathVariable Long featureId) {
+        return commentRepo.findByFeatureId(featureId);
     }
 
 }

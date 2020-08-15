@@ -4,8 +4,6 @@ import com.freshvotes.domain.User;
 import com.freshvotes.repositories.UserRepository;
 import com.freshvotes.security.Authority;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.AuthenticatedPrincipal;
-import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -23,7 +21,6 @@ public class UserService {
         Authority authority = new Authority();
         authority.setAuthority("ROLE_USER");
         authority.setUser(user);
-
         user.getAuthorities().add(authority);
         return userRepo.save(user);
     }

@@ -1,12 +1,18 @@
 package com.freshvotes.domain;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
+import lombok.AllArgsConstructor;
+import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import java.time.LocalDateTime;
 import java.util.*;
 
+@AllArgsConstructor
+@NoArgsConstructor
 @Entity
 @JsonIdentityInfo(generator = ObjectIdGenerators.IntSequenceGenerator.class, property = "@id")
 public class Comment implements Comparable<Comment> {
@@ -17,7 +23,8 @@ public class Comment implements Comparable<Comment> {
     private Feature feature;
     private SortedSet<Comment> comments = new TreeSet<>();
     private Comment comment;
-    private Date createdDate;
+    //@JsonFormat()
+    private LocalDateTime createdDate;
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -59,11 +66,11 @@ public class Comment implements Comparable<Comment> {
         this.comments = comments;
     }
 
-    public Date getCreatedDate() {
+    public LocalDateTime getCreatedDate() {
         return createdDate;
     }
 
-    public void setCreatedDate(Date createdDate) {
+    public void setCreatedDate(LocalDateTime createdDate) {
         this.createdDate = createdDate;
     }
 
