@@ -3,9 +3,12 @@ package com.freshvotes.repositories;
 import com.freshvotes.domain.Comment;
 import com.freshvotes.domain.Feature;
 import com.freshvotes.domain.User;
+import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
+import org.springframework.boot.test.autoconfigure.orm.jpa.TestEntityManager;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.context.junit4.SpringRunner;
@@ -17,16 +20,32 @@ import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 import static org.mockito.Mockito.when;
 
-@SpringBootTest
 @RunWith(SpringRunner.class)
+@DataJpaTest
 public class CommentRepositoryShould {
 
     private static final Long FEATURE_ID = 1L;
 
-    @MockBean
-    private CommentRepository commentRepo;
+    @Autowired
+    private CommentRepository repository;
+    @Autowired
+    private TestEntityManager entityManager;
+
+    @Before
+    public void setUp() {
+        entityManager.persist(new Comment());
+        entityManager.flush();
+    }
+
+    @Test
+    public void test_get_comment() {
+        List<Comment> all = repository.findAll();
+
+        assertTrue(all.size() >= 1);
+    }
 
     @Test
     public void getAllCommentsToFeatureByFeatureId() {
@@ -52,13 +71,13 @@ public class CommentRepositoryShould {
                 .of(testComment1, testComment2, testComment3, testComment4, testComment5, testComment6)
                 .collect(Collectors.toList());
 
-        when(commentRepo.findByFeatureId(FEATURE_ID)).thenReturn(commentsCollection);
-
-        List<Comment> commentsList = commentRepo.findByFeatureId(FEATURE_ID);
-
-        assertEquals(6, commentsList.size());
-        assertEquals(Long.valueOf(1), commentsList.get(0).getId());
-        assertEquals(LocalDateTime.parse("2007-12-03T10:15:35"), commentsList.get(5).getCreatedDate());
+//        when(commentRepo.findByFeatureId(FEATURE_ID)).thenReturn(commentsCollection);
+//
+//        List<Comment> commentsList = commentRepo.findByFeatureId(FEATURE_ID);
+//
+//        assertEquals(6, commentsList.size());
+//        assertEquals(Long.valueOf(1), commentsList.get(0).getId());
+//        assertEquals(LocalDateTime.parse("2007-12-03T10:15:35"), commentsList.get(5).getCreatedDate());
     }
 
     private Comment createComment(Long id, String text, Comment comment, LocalDateTime dateTime) {

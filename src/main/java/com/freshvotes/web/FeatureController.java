@@ -52,7 +52,7 @@ public class FeatureController {
             Comment comment = itr.next();
             boolean addedToVisitedComments = visitedComments.add(comment.getId());
             if (!addedToVisitedComments) {
-                itr.remove();
+                 itr.remove();
                 if (page != 1) return comments;
             }
             if (addedToVisitedComments && !comment.getComments().isEmpty())
