@@ -1,6 +1,5 @@
 package com.freshvotes.domain;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
@@ -9,7 +8,9 @@ import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
-import java.util.*;
+import java.util.Objects;
+import java.util.SortedSet;
+import java.util.TreeSet;
 
 @AllArgsConstructor
 @NoArgsConstructor

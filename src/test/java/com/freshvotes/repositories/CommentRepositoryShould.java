@@ -9,8 +9,6 @@ import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.boot.test.autoconfigure.orm.jpa.TestEntityManager;
-import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import java.time.LocalDateTime;
@@ -18,10 +16,6 @@ import java.util.List;
 import java.util.TreeSet;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
-
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
-import static org.mockito.Mockito.when;
 
 @RunWith(SpringRunner.class)
 @DataJpaTest
@@ -38,13 +32,6 @@ public class CommentRepositoryShould {
     public void setUp() {
         entityManager.persist(new Comment());
         entityManager.flush();
-    }
-
-    @Test
-    public void test_get_comment() {
-        List<Comment> all = repository.findAll();
-
-        assertTrue(all.size() >= 1);
     }
 
     @Test
