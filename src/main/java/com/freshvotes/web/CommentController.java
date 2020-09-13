@@ -5,6 +5,7 @@ import com.freshvotes.domain.Feature;
 import com.freshvotes.domain.User;
 import com.freshvotes.repositories.CommentRepository;
 import com.freshvotes.repositories.FeatureRepository;
+import org.aspectj.bridge.ICommand;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
@@ -17,6 +18,7 @@ import java.util.Optional;
 @Controller
 @RequestMapping("/products/{productId}/features/{featureId}/comments")
 public class CommentController {
+
 
     private final CommentRepository commentRepo;
 
@@ -36,13 +38,20 @@ public class CommentController {
 
     @PostMapping("")
     public String postComment(@AuthenticationPrincipal User user, @PathVariable Long productId,
-                              @PathVariable Long featureId, Comment comment) {
+                              @PathVariable Long featureId,
+                              @RequestParam(required = false) Long parentId,
+                              @RequestParam(required = false) String childCommentText) {
 
+        Comment comment = new Comment();
+        if (parentId != null) {
+            Optional<Comment> parentCommentOpt = commentRepo.findById(parentId);
+            parentCommentOpt.ifPresent(comment::setComment);
+        }
         Optional<Feature> featureOpt = featureRepo.findById(featureId);
         featureOpt.ifPresent(comment::setFeature);
         comment.setUser(user);
         comment.setCreatedDate(LocalDateTime.now());
-
+        comment.setText(childCommentText);
         commentRepo.save(comment);
 
         return "redirect:/products/" + productId + "/features/" + featureId;
